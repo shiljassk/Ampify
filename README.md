@@ -1,15 +1,15 @@
 # JAVA-laka-BoomBoom
 This is a repository for event Softablitz under Avishkar.
 
-#Project 1
+# Project 1
 Problem Statement Chosen  AMPIFY
 Placements this year have been a strenuous task. Kashyap , Chitranshu and Anshul took the responsibility of getting the entire batch placed. The work in TPO and a broken music system has made their life too stressful. Now it's your responsibility to keep them entertained with a music player while they keep doing their work.
 So to sort out this problem we are preparing a music player.
 
 
-##Features you are implementing
+## Features you are implementing
 
-###Basic Features: 
+### Basic Features: 
 1. A user can login / register. 
 2. New users choose the languages, artists and genres they like. 
 3. Basic media player features like play, pause, play next, repeat, shuffle, seekbar , adjust     volume, length of the song in front of each song etc. 
@@ -25,7 +25,7 @@ So to sort out this problem we are preparing a music player.
 13. Search for users and create a group. 
 14. Have group playlists where each member can add their music. 
 
-###Advanced Features: 
+### Advanced Features: 
 1. Play videos. 
 2. Display all local music and play them. 
 3. Recommend a user new music based on his likes and basic feature #2.
@@ -38,7 +38,7 @@ So to sort out this problem we are preparing a music player.
 
 
 
-##Future Scope
+## Future Scope
 1.	Equalizer.
 2.	Sync lyrics display with music playback
 3.	Real time chatting while song play
@@ -46,15 +46,15 @@ So to sort out this problem we are preparing a music player.
 
 
 
-##Tech Stack (if other than Java and MySQL) and External Libraries or APIs(why are they required?)
+## Tech Stack (if other than Java and MySQL) and External Libraries or APIs(why are they required?)
 1.	Core JAVA
 2.	Mysql
 3.	NetBeans
 
 
-##Team Details
+## Team Details
 
-###Team name:Java-laka-boom boom
+### Team name:Java-laka-boom boom
 
 Member 1-
 Name: Rishi Garg 
