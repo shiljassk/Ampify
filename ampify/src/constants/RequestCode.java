@@ -1,38 +1,35 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package constants;
 
-/**
- *
- * @author rishi
- */
 public enum RequestCode {
     LOGIN_REQUEST,
     SIGNUP_REQUEST,
-    GETMUSIC_REQUEST,
+    SET_STATUS,
+    GET_SONGLIST,
+    GET_SONG,
     HISTORY_REQUEST,
-    GETPLAYLIST_REQUEST,
-    CREATEPLAYLIST_REQUEST,
-    NEWSONGS_REQUEST,
-    FILEDOWNLOAD_REQUEST,
-    SEARCHMUSIC_REQUEST,
-    CREATEGROUP_REQUEST,
-    ADDSONGTOPLAYLIST_REQUEST,
-    RECOMMENDATION_REQUEST,
-    TRENDING_REQUEST,
-    NOTIFICATION_REQUEST,
-    LOGOUT_REQUEST,
-    FEEDBACK_REQUEST,
-    GETSTATUS_REQUEST,
-    SHAREABLEPLAYLIST_REQUEST,
-    USERSEARCH_REQUEST,
-    USERIP_REQUEST;
+    GET_PLAYLISTS,
+    CREATE_PLAYLIST,
+    NEW_SONGS,
+    SEARCH_SONG,
+    CREATE_GROUP,
+    ADD_SONG_TO_PLAYLIST,
+    RECOMMENDATION,
+    TRENDING,
+    SYNCHRONIZATION,
+    SEND_FEEDBACK,
+    GET_FEEDBACK,
+    USER_SEARCH,
+    GET_STATUS,
+    UPDATE_REQUEST,
+    LOGOUT_REQUEST, 
+    GET_PLAYLIST_SONGS,
+    SHARE_PLAYLIST_REQUEST,
+    GET_GROUPS_REQUEST, 
+    GET_GROUP_PLAYLIST_REQUEST,
+    CREATE_GROUP_PLAYLIST,
+    DOWNLOAD_SONG_REQUEST;
     
     RequestCode(){
         this.toString();
     }
-    
 }

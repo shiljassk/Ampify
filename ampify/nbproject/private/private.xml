@@ -1,16 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
-    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="1">
+        <file>
+            <url>src/controllers/mainpage.java</url>
+            <bookmark id="1">
+                <name/>
+                <line>2150</line>
+                <key/>
+            </bookmark>
+        </file>
+    </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/rishi/Documents/NetBeansProjects/ampify/src/data/Playlist.java</file>
-            <file>file:/C:/Users/rishi/Documents/NetBeansProjects/ampify/src/constants/ResponseCode.java</file>
-            <file>file:/C:/Users/rishi/Documents/NetBeansProjects/ampify/src/data/Music.java</file>
-            <file>file:/C:/Users/rishi/Documents/NetBeansProjects/ampify/src/constants/Notification.java</file>
-            <file>file:/C:/Users/rishi/Documents/NetBeansProjects/ampify/src/constants/Status.java</file>
-            <file>file:/C:/Users/rishi/Documents/NetBeansProjects/ampify/src/controllers/mainpage.java</file>
-            <file>file:/C:/Users/rishi/Documents/NetBeansProjects/ampify/src/data/User.java</file>
+            <file>file:/C:/Users/rishi/Documents/NetBeansProjects/ampify/src/request/NewSongsRequest.java</file>
+            <file>file:/C:/Users/rishi/Documents/NetBeansProjects/ampify/src/request/GetGroupPlaylistRequest.java</file>
+            <file>file:/C:/Users/rishi/Documents/NetBeansProjects/ampify/src/request/AddSongToPlaylistRequest.java</file>
+            <file>file:/C:/Users/rishi/Documents/NetBeansProjects/ampify/src/request/CreateGroupPlaylistRequest.java</file>
+            <file>file:/C:/Users/rishi/Documents/NetBeansProjects/ampify/src/request/DownloadSongRequest.java</file>
+            <file>file:/C:/Users/rishi/Documents/NetBeansProjects/ampify/src/request/UpdateRequest.java</file>
             <file>file:/C:/Users/rishi/Documents/NetBeansProjects/ampify/src/constants/RequestCode.java</file>
+            <file>file:/C:/Users/rishi/Documents/NetBeansProjects/ampify/src/request/RecommendationRequest.java</file>
+            <file>file:/C:/Users/rishi/Documents/NetBeansProjects/ampify/src/constants/ResponseCode.java</file>
+            <file>file:/C:/Users/rishi/Documents/NetBeansProjects/ampify/src/request/SharePlaylistRequest.java</file>
+            <file>file:/C:/Users/rishi/Documents/NetBeansProjects/ampify/src/main/DownloadSong.java</file>
+            <file>file:/C:/Users/rishi/Documents/NetBeansProjects/ampify/src/request/GetPlaylistRequest.java</file>
+            <file>file:/C:/Users/rishi/Documents/NetBeansProjects/ampify/src/main/MainClass.java</file>
+            <file>file:/C:/Users/rishi/Documents/NetBeansProjects/ampify/src/data/PlaylistName.java</file>
+            <file>file:/C:/Users/rishi/Documents/NetBeansProjects/ampify/src/request/GetGroupsRequest.java</file>
+            <file>file:/C:/Users/rishi/Documents/NetBeansProjects/ampify/src/controllers/mp3playeroffline.java</file>
+            <file>file:/C:/Users/rishi/Documents/NetBeansProjects/ampify/src/constants/StatusCode.java</file>
+            <file>file:/C:/Users/rishi/Documents/NetBeansProjects/ampify/src/request/SearchSongRequest.java</file>
+            <file>file:/C:/Users/rishi/Documents/NetBeansProjects/ampify/src/request/HistoryRequest.java</file>
+            <file>file:/C:/Users/rishi/Documents/NetBeansProjects/ampify/src/controllers/loginform.java</file>
+            <file>file:/C:/Users/rishi/Documents/NetBeansProjects/ampify/src/controllers/mainpage.java</file>
+            <file>file:/C:/Users/rishi/Documents/NetBeansProjects/ampify/src/data/Song.java</file>
+            <file>file:/C:/Users/rishi/Documents/NetBeansProjects/ampify/src/data/User.java</file>
+            <file>file:/C:/Users/rishi/Documents/NetBeansProjects/ampify/src/main/QueueEditor.java</file>
+            <file>file:/C:/Users/rishi/Documents/NetBeansProjects/ampify/src/main/PlayerOffline.java</file>
+            <file>file:/C:/Users/rishi/Documents/NetBeansProjects/ampify/src/request/TrendingRequest.java</file>
+            <file>file:/C:/Users/rishi/Documents/NetBeansProjects/ampify/src/request/Request.java</file>
+            <file>file:/C:/Users/rishi/Documents/NetBeansProjects/ampify/src/request/GetPlaylistSongsRequest.java</file>
+            <file>file:/C:/Users/rishi/Documents/NetBeansProjects/ampify/src/request/CreateGroupRequest.java</file>
+            <file>file:/C:/Users/rishi/Documents/NetBeansProjects/ampify/src/constants/FeedbackCode.java</file>
         </group>
     </open-files>
 </project-private>
