@@ -225,11 +225,13 @@
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace min="-2" pref="116" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="79" max="-2" attributes="0"/>
                           <Component id="seekbar" min="-2" pref="772" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="63" max="-2" attributes="0"/>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          <Component id="songlength" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="47" max="-2" attributes="0"/>
                           <Component id="offlinevolumedownbutton" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace pref="122" max="32767" attributes="0"/>
+                          <EmptySpace pref="130" max="32767" attributes="0"/>
                           <Component id="offlinevolumeupbutton" min="-2" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="42" max="-2" attributes="0"/>
                       </Group>
@@ -266,8 +268,11 @@
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                              <Component id="offlinevolumeupbutton" max="32767" attributes="0"/>
-                              <Component id="offlinevolumedownbutton" max="32767" attributes="0"/>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="offlinevolumeupbutton" alignment="3" max="32767" attributes="0"/>
+                                  <Component id="songlength" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <Component id="offlinevolumedownbutton" min="-2" max="-2" attributes="0"/>
                               <Component id="seekbar" alignment="0" pref="46" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace min="-2" pref="53" max="-2" attributes="0"/>
@@ -345,11 +350,18 @@
                   <Properties>
                     <Property name="text" type="java.lang.String" value="PLAY PREVIOUS"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="offlineplaypreviousbuttonMouseClicked"/>
+                  </Events>
                 </Component>
                 <Component class="javax.swing.JLabel" name="offlineshufflebutton">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="SHUFFLE"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="offlineshufflebuttonMouseClicked"/>
+                    <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="offlineshufflebuttonMouseEntered"/>
+                  </Events>
                 </Component>
                 <Component class="javax.swing.JLabel" name="offlinemutebutton">
                   <Properties>
@@ -381,6 +393,11 @@
                   <Events>
                     <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="offlineplaybtMouseClicked"/>
                   </Events>
+                </Component>
+                <Component class="javax.swing.JLabel" name="songlength">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="00:00"/>
+                  </Properties>
                 </Component>
               </SubComponents>
             </Container>

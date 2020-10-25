@@ -2,15 +2,15 @@ package controllers;
 import constants.ResponseCode;
 import data.User;
 import java.io.IOException;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JOptionPane;
 import main.MainClass;
 import request.LoginRequest;
 import request.Response;
 public class loginform extends javax.swing.JFrame {
    
-    
+    signupform signup =new signupform();
     public loginform() {
         initComponents();
         this.setLocationRelativeTo(null);
@@ -172,8 +172,26 @@ public class loginform extends javax.swing.JFrame {
 
     private void registerbtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registerbtActionPerformed
     
-    }//GEN-LAST:event_registerbtActionPerformed
+        this.setVisible(false);
+        signup.setVisible(true);
+        givenUsingJava8_whenGeneratingRandomAlphanumericString_thenCorrect();
 
+        
+    }//GEN-LAST:event_registerbtActionPerformed
+public void givenUsingJava8_whenGeneratingRandomAlphanumericString_thenCorrect() {
+	    int leftLimit = 48; // numeral '0'
+	    int rightLimit = 122; // letter 'z'
+	    int targetStringLength = 10;
+	    Random random = new Random();
+	 
+	    String generatedString = random.ints(leftLimit, rightLimit + 1)
+	      .filter(i -> (i <= 57 || i >= 65) && (i <= 90 || i >= 97))
+	      .limit(targetStringLength)
+	      .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+	      .toString();
+	 
+	    signup.setCaptchafield(generatedString);
+	}
     private void loginbtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginbtActionPerformed
     new Thread(new Runnable() {
       @Override
@@ -200,7 +218,9 @@ public class loginform extends javax.swing.JFrame {
             if(response.getResponseCode().equals(ResponseCode.SUCCESSFUL)){
                 statuslabel.setText("Logged in successfully");
                 MainClass.user = (User) response.getResponseObject();
+                
                 mainpage mp= new mainpage();
+                
                 mp.setVisible(true);
                 mp.setLocationRelativeTo(null);
                 dispose();

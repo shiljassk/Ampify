@@ -9,7 +9,7 @@ import java.io.Serializable;
  * @author rishi
  */
 public class SharePlaylistRequest extends Request implements Serializable{
-private String userName,targetUserName,playlistName;
+private final String userName,targetUserName,playlistName;
     public SharePlaylistRequest(String username ,String targetusername ,String playlistname) {
         this.playlistName=playlistname;
         this.targetUserName=targetusername;
