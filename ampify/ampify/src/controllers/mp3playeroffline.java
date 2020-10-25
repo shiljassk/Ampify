@@ -7,6 +7,7 @@ package controllers;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Random;
 import javafx.application.Platform;
 //import javafx.beans.value.ChangeListener;
 import javafx.embed.swing.JFXPanel;
@@ -32,89 +33,128 @@ import main.QueueEditor.*;
  */
 public class mp3playeroffline extends javax.swing.JFrame {
 
-   
-    QueueEditor queueEditor =new QueueEditor();
+   //declare variables here
+    QueueEditor queueEditor ;
     PlayerOffline playerOffline =new PlayerOffline();
+    Random random =new Random();
+    private Media media;
+    private static MediaPlayer mediaPlayer;
+    private boolean isPlaying = false;
+    private boolean isPaused = false;
+    private boolean  isshuffle=false;
+    private static ChangeListener seekListener;
+    //private ArrayList<String> songarray = new ArrayList<>();
+    private int playAllQueueCounter=0;
+    private int songArraySize;
+    private String isLooping= "LOOP_OFF";
+    private boolean ismuted =false;
+    private float volume=0.8F;
     
-    public ArrayList<String> queuenew;
-    int playcounter;
-    boolean isplaying=false;
-    boolean ispaused=true;
-    boolean islooping=false;
-    boolean ismuted =false;
     
-    float volume=0.8F;
-    /**
-     * Creates new form mp3player
-     */
+    
+    //
+    ////
+    
     public mp3playeroffline() {
         initComponents();
+        seekbar.setValue(0);
+    }
+    public mp3playeroffline(QueueEditor qe){
+        initComponents();
+        seekbar.setValue(0);
+        this.queueEditor=qe;
     }
  
-    MediaPlayer mediaPlayer;
-    private static ChangeListener seeklistener;
-    Media media;
     public void toolkit() {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
                 new JFXPanel(); // this will prepare JavaFX toolkit and environment
-                Platform.runLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        StageBuilder.create()
-                                .scene(SceneBuilder.create()
-                                        .root(LabelBuilder.create()
-                                                .build())
-                                        .build())
-                                .build();
-                    }
-                    });
             }
             });
-        
+    }
     
-    }
-    private void seekbarcontrol(){
-        mediaPlayer.currentTimeProperty().addListener(l->{
-        seekbar.removeChangeListener((javax.swing.event.ChangeListener) seeklistener);
-        Duration currenttime=mediaPlayer.getCurrentTime();
-        int value =(int)currenttime.toSeconds();
-        seekbar.setValue(value);
-        seekbar.addChangeListener((javax.swing.event.ChangeListener) seeklistener);
-        });
-    }
-    public void givepath(String path){
-    media = new Media(new File(path).toURI().toString());
-        mediaPlayer=new MediaPlayer(media);
-        mediaPlayer.setOnReady(new Runnable() {
-        @Override
-        public void run() {
-            seekbar.setMaximum((int)media.getDuration().toSeconds());
-            seekbarcontrol();
-            
-        }
-    });
-        
-        seeklistener=new ChangeListener() {
-        
-        public void stateChanged(ChangeEvent event) {
-            
-            mediaPlayer.seek(Duration.seconds(seekbar.getValue()));
-        }
+     private void mp3player(int i){
+       
+        media = new Media(new File("C:\\Ampify_Downloaded_Songs\\"+queueEditor.getNowplayinglist().get(i)).toURI().toString());
+       
+        mediaPlayer = new MediaPlayer(media);
 
+         mediaPlayer.setOnReady(() -> {
+             int seconds=(int)media.getDuration().toSeconds();
+             int minutes =seconds/60;
+             int finalseconds=seconds%60;
+             songlength.setText(minutes+":"+finalseconds);
+             //System.out.println();
+             seekbar.setMaximum((int) media.getDuration().toSeconds());
+             mediaPlayer.currentTimeProperty().addListener(l-> {
+                 
+                 seekbar.removeChangeListener(seekListener);
+                 Duration currentTime = mediaPlayer.getCurrentTime();
+                 
+                 int value = (int) currentTime.toSeconds();
+                 seekbar.setValue(value);
+                 seekbar.addChangeListener(seekListener);
+                 
+             });});
         
-    };
-    }
-    
-    public void getandupdatequeuelist(ArrayList<String> queueget){
-        System.out.println("hey there");
-        System.out.println(queueget);
-        queuenew=queueget;
-        System.out.println("yha aa gya");
-                System.out.println(queuenew);
-        System.out.println(queueEditor.nowplayinglist);
-        System.out.println("hellll");
+         seekListener = (ChangeEvent event) -> {
+             mediaPlayer.seek(Duration.seconds(seekbar.getValue()));
+       };
+         
+        seekbar.addChangeListener(seekListener);
+         
+        
+        mediaPlayer.play();
+        
+        mediaPlayer.setOnEndOfMedia(() -> {
+            if(null != isLooping)switch (isLooping) {
+                
+                case "LOOP_OFF":
+                    mediaPlayer.dispose();
+                    seekbar.removeChangeListener(seekListener);
+                    seekbar.setValue(0);
+                    
+                    if(playAllQueueCounter>=0 && playAllQueueCounter<queueEditor.getNowplayinglist().size() && isshuffle==false){
+                        
+                        mp3player(playAllQueueCounter);
+                        playAllQueueCounter++;
+                    }  
+                    else if(playAllQueueCounter>=0 && isshuffle==true){
+                        //System.out.println(queueEditor.getNowplayinglist().size());
+                        //System.out.println(random.nextInt(queueEditor.getNowplayinglist().size()));
+                        playAllQueueCounter=random.nextInt(queueEditor.getNowplayinglist().size());
+                        
+                        mp3player(playAllQueueCounter);
+                        playAllQueueCounter++;
+                    }
+                    break;
+                    
+                case "LOOP_ONE":
+                    seekbar.setValue(0);
+                    break;
+                    
+                case "LOOP_ALL":
+                    mediaPlayer.dispose();
+                    seekbar.removeChangeListener(seekListener);
+                    seekbar.setValue(0);
+                    
+                    if(playAllQueueCounter>=queueEditor.getNowplayinglist().size() && isshuffle==false){
+                        playAllQueueCounter = 0; }
+                    else if(isshuffle==true){
+                        playAllQueueCounter=random.nextInt(queueEditor.getNowplayinglist().size());
+                    }
+                    
+                    mp3player(playAllQueueCounter);
+                     playAllQueueCounter++;
+                    break;
+            }
+        });
+                }
+
+//    
+    public void getandupdatequeuelist(){
+        
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -154,6 +194,7 @@ public class mp3playeroffline extends javax.swing.JFrame {
         jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
         offlineplaybt = new javax.swing.JLabel();
+        songlength = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         videopanel = new javax.swing.JPanel();
 
@@ -304,8 +345,21 @@ public class mp3playeroffline extends javax.swing.JFrame {
         });
 
         offlineplaypreviousbutton.setText("PLAY PREVIOUS");
+        offlineplaypreviousbutton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                offlineplaypreviousbuttonMouseClicked(evt);
+            }
+        });
 
         offlineshufflebutton.setText("SHUFFLE");
+        offlineshufflebutton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                offlineshufflebuttonMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                offlineshufflebuttonMouseEntered(evt);
+            }
+        });
 
         offlinemutebutton.setText("MUTE");
         offlinemutebutton.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -327,16 +381,20 @@ public class mp3playeroffline extends javax.swing.JFrame {
             }
         });
 
+        songlength.setText("00:00");
+
         javax.swing.GroupLayout offlineplaybuttonLayout = new javax.swing.GroupLayout(offlineplaybutton);
         offlineplaybutton.setLayout(offlineplaybuttonLayout);
         offlineplaybuttonLayout.setHorizontalGroup(
             offlineplaybuttonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(offlineplaybuttonLayout.createSequentialGroup()
-                .addGap(116, 116, 116)
+                .addGap(79, 79, 79)
                 .addComponent(seekbar, javax.swing.GroupLayout.PREFERRED_SIZE, 772, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(63, 63, 63)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(songlength)
+                .addGap(47, 47, 47)
                 .addComponent(offlinevolumedownbutton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 122, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 130, Short.MAX_VALUE)
                 .addComponent(offlinevolumeupbutton)
                 .addGap(42, 42, 42))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, offlineplaybuttonLayout.createSequentialGroup()
@@ -369,8 +427,10 @@ public class mp3playeroffline extends javax.swing.JFrame {
             .addGroup(offlineplaybuttonLayout.createSequentialGroup()
                 .addGap(36, 36, 36)
                 .addGroup(offlineplaybuttonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(offlinevolumeupbutton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(offlinevolumedownbutton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(offlineplaybuttonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(offlinevolumeupbutton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(songlength))
+                    .addComponent(offlinevolumedownbutton)
                     .addComponent(seekbar, javax.swing.GroupLayout.DEFAULT_SIZE, 46, Short.MAX_VALUE))
                 .addGap(53, 53, 53)
                 .addGroup(offlineplaybuttonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -441,21 +501,19 @@ public class mp3playeroffline extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void offlinepausebuttonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_offlinepausebuttonMouseClicked
-        // TODO add your handling code here:
-       
-        if(isplaying && !ispaused){
+        if(isPlaying && !isPaused){
             mediaPlayer.pause();
     
-            ispaused = true;
+            isPaused = true;
             offlinepausebutton.setText("RESUME");
         }
-        else if(isplaying && ispaused){
+        else if(isPlaying && isPaused){
            mediaPlayer.seek(Duration.seconds(seekbar.getValue()));
            mediaPlayer.play();
-           ispaused = false;
-offlinepausebutton.setText("PAUSE");
+           isPaused = false;
+           offlinepausebutton.setText("PAUSE");
            
-       }
+       } 
     }//GEN-LAST:event_offlinepausebuttonMouseClicked
 
     public JSlider getSeekbar(){
@@ -463,23 +521,21 @@ offlinepausebutton.setText("PAUSE");
     }
     private void offlineplaybtMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_offlineplaybtMouseClicked
         // TODO add your handling code here:
-        System.out.println(queueEditor.nowplayinglist); 
-        System.out.println("i am here");
-        System.out.println(queuenew);
-        if(queuenew.size()==0){
+       playAllQueueCounter = 0;
+        
+        if(queueEditor.getNowplayinglist().isEmpty()){
             JOptionPane.showMessageDialog(null,"NO SONG IN LIST");
         }else{
-        playcounter =0;
-         if(isplaying){
+        
+         if(isPlaying){
              mediaPlayer.dispose();
-             seekbar.removeChangeListener(seeklistener);
-         }      
-            System.out.println("11");
-        seekbar.setValue(0);
-            System.out.println("22");
-        isplaying=true;
-        mp3player(playcounter);
-        playcounter++;
+             seekbar.removeChangeListener(seekListener);
+             seekbar.setValue(0);
+         }  
+        
+        isPlaying=true;
+        mp3player(playAllQueueCounter);
+        playAllQueueCounter++;
         
         
         }
@@ -499,35 +555,38 @@ offlinepausebutton.setText("PAUSE");
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
+      
         
-        if(isplaying){
-            JOptionPane.showMessageDialog(null, mediaPlayer.getCurrentTime());
-        mediaPlayer.stop();
-        isplaying=false;
-        }
         
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void offlinestopbuttonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_offlinestopbuttonMouseClicked
-        // TODO add your handling code here:
-        
-        if(isplaying){
+        if(isPlaying){
         mediaPlayer.dispose();
-        seekbar.removeChangeListener(seeklistener);
+        seekbar.removeChangeListener(seekListener);
         seekbar.setValue(0);
-        isplaying = false;
+        isPlaying = false;
         offlinepausebutton.setText("PAUSE");
         }
     }//GEN-LAST:event_offlinestopbuttonMouseClicked
 
     private void offlineloopbuttonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_offlineloopbuttonMouseClicked
-        // TODO add your handling code here:
-        if(islooping)
-            islooping=false;
-        else
-            islooping=true;
-        
+            if(null != isLooping)switch (isLooping) {
+            
+                case "LOOP_OFF":
+                isLooping = "LOOP_ONE";
+                offlineloopbutton.setText("LOOP ONE");
+                break;
+            
+                case "LOOP_ONE":
+                isLooping = "LOOP_ALL";
+                offlineloopbutton.setText("LOOP ALL");
+                break;
+
+                default:
+                isLooping = "LOOP_OFF";
+                offlineloopbutton.setText("LOOP OFF");
+            }
     }//GEN-LAST:event_offlineloopbuttonMouseClicked
 
     private void offlinemutebuttonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_offlinemutebuttonMouseClicked
@@ -564,54 +623,131 @@ offlinepausebutton.setText("PAUSE");
     }//GEN-LAST:event_offlinevolumeupbuttonMouseClicked
 
     private void offlineplaynextbuttonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_offlineplaynextbuttonMouseClicked
-        // TODO add your handling code here:
-        if(isplaying){
-            mediaPlayer.dispose();
-            seekbar.removeChangeListener(seeklistener); 
+        if((songArraySize = queueEditor.getNowplayinglist().size())==0){
+            JOptionPane.showMessageDialog(null, "NO SONGS IN QUEUE");
         }
-        seekbar.setValue(0);
-        mp3player(playcounter);
-        playcounter++;
+        
+        else if(null != isLooping)switch (isLooping) {
+                
+                case "LOOP_ALL":
+                    
+                    mediaPlayer.dispose();
+                    seekbar.removeChangeListener(seekListener);
+                    seekbar.setValue(0);
+                    
+                    if(playAllQueueCounter>=songArraySize && isshuffle==false){
+                        playAllQueueCounter = 0;}
+                    else if(isshuffle==true){
+                        playAllQueueCounter=random.nextInt(queueEditor.getNowplayinglist().size());
+                    }
+                        mp3player(playAllQueueCounter);
+                        playAllQueueCounter++;
+                        
+                        isPlaying = true;
+                        offlinepausebutton.setText("PAUSE");
+                        isPaused = false;
+                     break;
+                    
+                default:
+                    if(playAllQueueCounter>=songArraySize && isshuffle==false){
+                        JOptionPane.showMessageDialog(null, "END OF PLAYLIST");
+                        break;
+                    }
+                    else if(isshuffle==true){
+                        playAllQueueCounter=random.nextInt(queueEditor.getNowplayinglist().size());
+                    
+                    
+                    }
+                    
+                    mediaPlayer.dispose();
+                    seekbar.removeChangeListener(seekListener);
+                    seekbar.setValue(0);
+                    
+                    mp3player(playAllQueueCounter);
+                        playAllQueueCounter++;
+                    
+                        isPlaying = true;
+                        offlinepausebutton.setText("PAUSE");
+                        isPaused = false;
+                    break;
+        }
         
     }//GEN-LAST:event_offlineplaynextbuttonMouseClicked
 
-    private void mp3player(int i){
-        System.out.println("helooooooo");
-        System.out.println(queueEditor.nowplayinglist);
-        media = new Media(new File("C:\\Ampify_Downloaded_Songs\\"+queuenew.get(i)).toURI().toString());
-        mediaPlayer = new MediaPlayer(media);
-//        timeBar.setValue(0);
-         mediaPlayer.setOnReady(new Runnable() {
-                  @Override
-             public void run() {
-                 seekbar.setMaximum((int) media.getDuration().toSeconds());
-               mediaPlayer.currentTimeProperty().addListener(l-> {
-			
-  		    seekbar.removeChangeListener(seeklistener);
-  		    Duration currentTime = mediaPlayer.getCurrentTime();
-  		    int value = (int) currentTime.toSeconds();
-  		    seekbar.setValue(value);    
-  		    seekbar.addChangeListener(seeklistener);
-                                    
-    });
-             }
-         });
+    private void offlineplaypreviousbuttonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_offlineplaypreviousbuttonMouseClicked
+            if((songArraySize = queueEditor.getNowplayinglist().size())==0){
+            JOptionPane.showMessageDialog(null, "NO SONGS IN QUEUE");
+        }  
         
-         seeklistener = new ChangeListener() {
-		      public void stateChanged(ChangeEvent event) {
-		    	  mediaPlayer.seek(Duration.seconds(seekbar.getValue()));
-		      }
-                                    };
-        seekbar.addChangeListener(seeklistener);
+        else if(null != isLooping)switch (isLooping) {
+                
+                case "LOOP_ALL":
+                    mediaPlayer.dispose();
+                    seekbar.removeChangeListener(seekListener);
+                    seekbar.setValue(0);
+                    
+                    playAllQueueCounter--;
+                    playAllQueueCounter--;
+                    
+                    if(playAllQueueCounter<0 && isshuffle==false){
+                        playAllQueueCounter = songArraySize-1;}
+                    else if(isshuffle==true){
+                    playAllQueueCounter=random.nextInt(queueEditor.getNowplayinglist().size());
+                }
+                    
+                        mp3player(playAllQueueCounter);
+                        playAllQueueCounter++;
+                        
+                        isPlaying = true;
+                        offlinepausebutton.setText("PAUSE");
+                        isPaused = false;
+                     break;
+                    
+                default:
+                    playAllQueueCounter--;
+                    playAllQueueCounter--;
+                    
+                    if(playAllQueueCounter<0 && isshuffle==false){
+                        JOptionPane.showMessageDialog(null, "NO PREVIOUS SONGS");
+                        playAllQueueCounter = 0;
+                        break;
+                    }
+                    else if(playAllQueueCounter<0 && isshuffle==false){
+                        playAllQueueCounter=random.nextInt(queueEditor.getNowplayinglist().size());
+                    }
+                    
+                    mediaPlayer.dispose();
+                    seekbar.removeChangeListener(seekListener);
+                    seekbar.setValue(0);
+                    
+                    mp3player(playAllQueueCounter);
+                        playAllQueueCounter++;
+                    
+                        isPlaying=true;
+                    offlinepausebutton.setText("PAUSE");
+                        isPaused = false;
+                    break;
+        }
         
-        mediaPlayer.play();
-        
-        
-    }
-    
-    /**
-     * @param args the command line arguments
-     */
+    }//GEN-LAST:event_offlineplaypreviousbuttonMouseClicked
+
+    private void offlineshufflebuttonMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_offlineshufflebuttonMouseEntered
+        // TODO add your handling code here:
+    }//GEN-LAST:event_offlineshufflebuttonMouseEntered
+
+    private void offlineshufflebuttonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_offlineshufflebuttonMouseClicked
+        // TODO add your handling code here:
+        if(isshuffle){
+            isshuffle=false;
+            offlineshufflebutton.setText("SHUFFLE OFF");
+        }
+        else{
+            isshuffle=true;
+            offlineshufflebutton.setText("SHUFFLE ON");
+        }
+    }//GEN-LAST:event_offlineshufflebuttonMouseClicked
+
+   
     
     private JFXPanel fxPanel;
     public static void main(String args[]) {
@@ -678,6 +814,7 @@ offlinepausebutton.setText("PAUSE");
     private javax.swing.JLabel offlinevolumedownbutton;
     private javax.swing.JLabel offlinevolumeupbutton;
     private javax.swing.JSlider seekbar;
+    private javax.swing.JLabel songlength;
     private javax.swing.JPanel videopanel;
     // End of variables declaration//GEN-END:variables
 

@@ -6,23 +6,19 @@ import java.util.ArrayList;
 
 public class CreateGroupRequest  extends Request implements Serializable{
      private String gname;
-     private ArrayList<String> members;
+     private String member;
 
-    public CreateGroupRequest(String gname ,ArrayList members) {
-        
-        this.gname=gname;
-        this.members=members;
-        
+    public CreateGroupRequest(String gname, String member) {
+        this.gname = gname;
+        this.member = member;
     }
-     
-     
-     
+ 
      public String getGroupName(){
          return gname;
      }
      
-     public ArrayList getMembers(){
-         return members;
+     public String getMembers(){
+         return member;
      }
      
      @Override

@@ -9,7 +9,6 @@ package main;
 import controllers.mainpage;
 import java.util.ArrayList;
 import javax.swing.DefaultListModel;
-import sun.security.krb5.internal.rcache.AuthList;
 
 /**
  *
@@ -17,12 +16,15 @@ import sun.security.krb5.internal.rcache.AuthList;
  */
 public class QueueEditor {
     
-      mainpage mp;
+     mainpage mp;
      public static ArrayList<String> nowplayinglist=new ArrayList<>();
     
      public QueueEditor(mainpage mpp){
          mp=mpp;
      }
+
+    public QueueEditor() { }
+    
    public void addsongtoqueue(String s){
        this.nowplayinglist.add(s);
        sendtoqueue();
@@ -89,11 +91,6 @@ public class QueueEditor {
         
     }
     
-    public String getTopSong(){
-        String topsong =this.nowplayinglist.get(0);
-        return topsong;
-        
-    }
 
     public ArrayList<String> getNowplayinglist() {
         System.out.println("hiiii");
