@@ -57,14 +57,12 @@ So to sort out this problem we are preparing a music player.
 ### Team name:Java-laka-boom boom
 
 Member 1-
-Name: Rishi Garg 
-Reg. number: 20194167
-Contact:7081259609(calls)
-         8840943851(whatsapp)
-         
-Member 2
 Name: Pavan Kumar
 Reg. number: 20190009
+         
+Member 2
+Name: Rishi Garg 
+Reg. number: 20194167
 
 Member 3
 Name: Vishakha Rathore
