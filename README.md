@@ -1,7 +1,7 @@
 # Ampify
 This is a project developed on core JAVA using socket programming and OOPS concepts.
 
- AMPIFY
+AMPIFY
 ## Features
 
 ### Basic Features: 
