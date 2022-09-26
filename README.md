@@ -49,14 +49,3 @@ AMPIFY
 2. Xampp
 3. Scene Builder
 4. Git
-
-### Team Details
-
-Contributor 1-
-Name: Pavan Kumar
-Linked-in: https://www.linkedin.com/in/pavan-kumar-2690b0166
-
-Contributor 2-
-Name: Rishi Garg 
-Linked-in: https://www.linkedin.com/in/rishi-garg-20194167
-         
