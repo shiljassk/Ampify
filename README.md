@@ -1,5 +1,5 @@
 # Ampify
-This is a project developed on core JAVA using socket programming and OOPS concepts.
+Simulated a online music player that can search across songs, artists, with like, dislikes and ability to download and play the song locally.
 
 AMPIFY
 ## Features
